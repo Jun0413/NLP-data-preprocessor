@@ -181,19 +181,16 @@ class NlpPreprocessor(object):
     def save_vocab(self, word2idx, word2idx_name, idx2vec_name,
         idx2word, idx2word_name, word2vecfile):
         # save word2idx.json
-        if not os.path.exists(word2idx_name): # DELETE THESE AFTER TESTING
-            json.dump(word2idx, open(word2idx_name, "w"), indent=4)
+        json.dump(word2idx, open(word2idx_name, "w"), indent=4)
 
         # save idx2word.json
-        if not os.path.exists(idx2word_name):
-            json.dump(idx2word, open(idx2word_name, "w"), indent=4)
+        json.dump(idx2word, open(idx2word_name, "w"), indent=4)
 
         # save idx2vec.h5
-        if not os.path.exists(idx2vec_name):
-            idx2vec = self.get_idx2vec(word2idx, word2vecfile)
-            h5f = h5py.File(idx2vec_name, "w")
-            h5f.create_dataset("idx2vec", data=idx2vec)
-            h5f.close()
+        idx2vec = self.get_idx2vec(word2idx, word2vecfile)
+        h5f = h5py.File(idx2vec_name, "w")
+        h5f.create_dataset("idx2vec", data=idx2vec)
+        h5f.close()
 
     def load_word2idx(self, word2idx_name):
         return json.load(open(word2idx_name, "r"))
